@@ -1,0 +1,27 @@
+paramiko ssh:
+while(True):    
+                                resp = chan.recv(9999)
+                           resp=resp.decode('ascii').split(',')
+                             resp=''.join(resp)
+                                 if "complete" in resp:
+                                  time.sleep(2)
+                                  break
+                                 print("waiting",resp)
+                                print("success")
+
+log system:
+	self.doinb = False
+        self.log = ''
+        self.prib01=False
+        self.secb01=False
+	self.log+="#Policy " + str(self.spinBoxRuleNo.value()) +'\n\n'
+        if self.prib01==True :
+         self.log+="pls check PRI-HCP-B01\n------------------\n"
+        if self.secb01==True :
+         self.log+="pls check SEC-HCP-B01\n------------------\n"
+        if self.LineEditDefaultGroup.text()!='':
+         self.log+="Changed Group: "+self.LineEditDefaultGroup.text()
+        self.log+=str(self.textEditSource.toPlainText())+'\n------------------\n'+str(self.textEditDestination.toPlainText())+'\n------------------\n'+str(self.textEditApplication.toPlainText())+'\n\n'+"*********************************************************************************************************\n"
+        self.prib01=False
+        self.secb01=False
+        processResults.addTmpConfig(self)
