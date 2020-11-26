@@ -63,6 +63,7 @@ def w3e():
             if "Additional Information" in ta:
                 break
             ta=ta.replace(".",'')
+            ta=ta.replace(" ",'')
             ta = ta.replace("a", '')
             ta = ta.replace("b", '')
             ta = ta.replace("d", '')
@@ -80,7 +81,7 @@ def w3e():
         findest=[]
         finsour=[]
         finapp=[]
-        destre=[i.split('\n',66)for i in dest]
+        destre=[i.split('\n',999)for i in dest]
         for ib in destre:
             tmpdest = []
             for ic in ib:
@@ -90,18 +91,18 @@ def w3e():
 
             findest.append(tmpdest)
 
-        sourr=[i.split('\n',66)for i in sour]
-
+        sourr=[i.split('\n',999)for i in sour]
         for ib in sourr:
             tmpdest = []
             for ic in ib:
-                 ic = ic.split('/', 1)[0]
-                 if '.' in ic :
+                ic = ic.split('/', 1)[0]
+                if '.' in ic:
                   tmpdest.append(ic)
-
             finsour.append(tmpdest)
 
-        appr = [i.split('\n', 66) for i in app]
+        appr = [i.replace(',','\n') for i in app]
+        appr = [i.replace(' ','\n') for i in appr]
+        appr = [i.split('\n', 999) for i in appr]
         for ib in appr:
             tmpdest = []
             for ic in ib:
@@ -119,32 +120,38 @@ def w3e():
                    ic="junos-dns-udp"
                 if ic=='587':
                    ic="junos-smtps"
+                if ic=='PING':
+                   ic="junos-ping"
                 tmpdest.append(ic)
             finapp.append(tmpdest)
         ih=0
         while ih < len(finsour):
-          finsour[ih]=','.join(finsour[ih])
-          finsour[ih]=finsour[ih].replace(",","\n")
-          finsour[ih] = finsour[ih].replace("[", "")
-          finsour[ih] = finsour[ih].replace("]", "")
+          finsour[ih]='\n'.join(finsour[ih])
+          finsour[ih] = finsour[ih].replace(",","")
+          finsour[ih] = finsour[ih].replace(" ","")
+          finsour[ih] = finsour[ih].replace("[","")
+          finsour[ih] = finsour[ih].replace("]","")
+          finsour[ih] = finsour[ih].replace("\u200b","")
           ih+=1
-
         ih=0
         while ih < len(findest):
-          findest[ih]=','.join(findest[ih])
-          findest[ih]=findest[ih].replace(",","\n")
+          findest[ih]='\n'.join(findest[ih])
+          findest[ih]=findest[ih].replace(",","")
+          findest[ih]=findest[ih].replace(" ","")
           findest[ih] = findest[ih].replace("[", "")
           findest[ih] = findest[ih].replace("]", "")
+          findest[ih] = findest[ih].replace("\u200b", "")
           ih+=1
         ih = 0
         while ih < len(finapp):
-            finapp[ih] = ','.join(finapp[ih])
-            finapp[ih] = finapp[ih].replace(",", "\n")
-            finapp[ih] = finapp[ih].replace("[", "")
-            finapp[ih] = finapp[ih].replace("]", "")
+            finapp[ih] = '\n'.join(finapp[ih])
             ih += 1
         ih = 0
-
+        while ih < len(pro):
+            if pro[ih] =='UDP':
+                finapp[ih]+='_UDP'
+            ih += 1
+        ih = 0
 
         wb=load_workbook("Z:/Network_Security/Firewall_Policy_Program/PythonFirewall/PRDv3/connectDatabase/Database/eHR_PRD_FW_gpinput.xlsx")
         ws=wb["input_lookup"]

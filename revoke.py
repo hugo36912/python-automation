@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from Revoke.revokeop import excum
+from Revoke.revokeip import policyvoke
 from initial.initial import initial
 from connectDatabase.getGroupFromDB import getGroupInfoFromExcel
 from connectDatabase.getZoneFromDB import getZoneInfoFromExcel
@@ -9,6 +10,7 @@ from connectSRX.getConfig_SRX import getConfig_SRX
 from connectSRX.getRuleFromConfig import getRuleFromConfig
 from connectSRX.getConfig_Forti import getConfig_Forti
 from processResults.processResults import processResults
+
 
 class Revoke(object):
     def startRevoke(self):
@@ -31,6 +33,12 @@ class Revoke(object):
             inputApplication = []
             inputApplication = ' '.join(self.textEditApplication.toPlainText().split('\n')).split()
             
+            if inputDestination == [] and inputApplication == []:
+                print("single source")
+                policyvoke.startpolicyvoke(self)
+                print("completed single source revoke check")
+                return 1
+
             strTCP = "_TCP"  #default TCP
             for idx, item in enumerate(inputApplication):
                 #print(inputApplication[idx])
