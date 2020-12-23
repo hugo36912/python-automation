@@ -16,7 +16,7 @@ x = datetime.datetime.now()
 day=x.day
 year=str(x.year)
 month=str(x.month)
-today=year+'-'+month+'-'+str(day)
+today=year+'-'+month.zfill(2)+'-'+str(day).zfill(2)
 Path('Z:\\Network_Security\\Firewall_Policy_Program\\PythonFirewall\\PRDv3\\OriginalConfigFile\\archive\\'+today).mkdir(parents=True,exist_ok=True)
 Path('Z:\\Network_Security\\Firewall_Policy_Program\\PythonFirewall\\PRDv3\\tmpConfigFile\\archive\\'+today).mkdir(parents=True,exist_ok=True)
 for g in gp:
@@ -34,7 +34,7 @@ dat= x - timedelta(days=offset)
 
 
 
-search_path="config_"+str(dat.year)+str(dat.month)+str(dat.day)
+search_path="config_"+str(dat.year)+str(dat.month).zfill(2)+str(dat.day).zfill(2)
 search_path='Y:\\HCP_Facing\\Download\\'+search_path
 search=Path(search_path)
 if search.is_dir():
